@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CourseList from './components/CourseList';
+import TermPage from './components/TermPage';
 import Banner from './components/Banner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -18,7 +18,7 @@ const Main = () => {
   return (
     <div>
       <Banner title={schedule.title} />
-      <CourseList courses={schedule.courses} /> 
+      <TermPage courses={schedule.courses} /> 
     </div>
   );
 };
