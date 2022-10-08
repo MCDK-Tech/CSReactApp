@@ -10,13 +10,19 @@ const terms = {
 };
 
 const TermPage = ({ courses }) => {
-    const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+  const [selected, setSelected] = useState([]);
+  const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+  const toggleSelected = (item) => setSelected(
+    selected.includes(item)
+    ? selected.filter(x => x !== item)
+    : [...selected, item]
+  );
     return (
       <div>
         <TermSelector 
-        selection={selection} 
-        setSelection={setSelection} />
-        <CourseList courses={Object.values(courses).filter((course) => course.term === selection)}/>
+          selection={selection}
+          setSelection={setSelection} />
+         <CourseList courses={Object.values(courses).filter((course) => course.term === selection)} selected={selected} toggleSelected={toggleSelected}/>
       </div>
     );
   }

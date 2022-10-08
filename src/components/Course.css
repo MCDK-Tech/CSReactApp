@@ -1,7 +1,12 @@
 .course_list {
     display: grid;
     grid-template-columns: repeat(auto-fill, 14rem);
+    
   }
 
 
+.course .selected {
+  background-color:lemonchiffon;
+  color: green;
+}
 
