@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import TermSelector from './TermSelector';
 import CourseList from './CourseList'
+import Modal from './Modal';
+import Cart from './Cart.jsx';
 
 const terms = {
     Fall: 'Fall', 
@@ -10,8 +12,13 @@ const terms = {
 };
 
 const TermPage = ({ courses }) => {
-  const [selected, setSelected] = useState([]);
   const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+  const [selected, setSelected] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+
   const toggleSelected = (item) => setSelected(
     selected.includes(item)
     ? selected.filter(x => x !== item)
@@ -22,8 +29,14 @@ const TermPage = ({ courses }) => {
         <TermSelector 
           selection={selection}
           setSelection={setSelection} />
-         <CourseList courses={Object.values(courses).filter((course) => course.term === selection)} selected={selected} toggleSelected={toggleSelected}/>
-      </div>
+          <div className="d-flex">
+            <button className="ms-auto btn btn-outline-dark" onClick={openModal}><i className="bi bi-cart4"></i>Schedule</button>
+          </div>
+          <Modal open={open} close={closeModal}>
+              <Cart selected={selected} />
+          </Modal>
+         <CourseList courses={courses} selection={selection} selected={selected} toggleSelected={toggleSelected}/>
+         </div>
     );
   }
 
