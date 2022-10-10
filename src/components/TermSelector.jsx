@@ -21,7 +21,7 @@ const MenuButton = ({term, selection, setSelection}) => (
     </div>
   );
 
-  
+
 const TermSelector = ({ selection, setSelection}) => (
     <div className="btn-group">
       { 

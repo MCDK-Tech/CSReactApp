@@ -6,6 +6,7 @@ const Modal = ({ children, open, close }) => (
     tabIndex="-1"
     role="dialog"
     onClick={(evt) => { if (evt.target === evt.currentTarget) close(); }}
+   
   >
     <div className="modal-dialog" role="document">
       <div className="modal-content">
