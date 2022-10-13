@@ -10,3 +10,8 @@
   color: green;
 }
 
+.course .unavailable{
+  background-color:rgb(251, 245, 228);
+  color: rgb(128, 0, 0);
+}
+
