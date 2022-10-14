@@ -11,6 +11,8 @@ import Cart from './components/Cart.jsx';
 import TermSelector from './components/TermSelector';
 import CourseList from './components/CourseList';
 import { conflict_courses } from './utilities/checks.js';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CourseForm from './components/CourseForm';
 
 const terms = {
   Fall: 'Fall', 
@@ -27,6 +29,7 @@ const Main = () => {
   const [selected, setSelected] = useState([]);
   const [unavailable, setUnavailable] = useState([]);
   const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+
   const toggleSelected = (item) => { setSelected(
     selected.includes(item)
     ? selected.filter(x => x !== item)
@@ -66,7 +69,12 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <div className="container">
-      <Main />
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main/>} />
+        <Route path="/CourseForm/:id" element={<CourseForm />} />
+      </Routes>
+    </BrowserRouter>
     </div>
   </QueryClientProvider>
 );
