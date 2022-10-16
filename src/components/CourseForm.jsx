@@ -7,7 +7,7 @@ const validateUserData = (key, val) => {
     case 'coursename':
       return /(^\w\w)/.test(val) ? '' : 'must be least two characters';
     case 'meet':
-      return /^\w+@\w+[.]\w+/.test(val) ? '' : 'must contain time';
+      return (/^[\s]*$/.test(val) || /(M|Tu|W|Th|F)+ (\d\d?)+:(\d\d)+-(\d\d?)+:(\d\d)/.test(val)) ? '' : 'must contain days and start-end, e.g., MWF 12:00-13:20';
     default: return '';
   }
 };
@@ -35,7 +35,7 @@ const CourseForm = ({user}) => {
   // const [update, result] = useDbUpdate(`/users/${user.id}`);
   const [state, change] = useFormData(validateUserData, user);
   const submit = (evt) => {
-    // evt.preventDefault();
+    evt.preventDefault();
     // if (!state.errors) {
     //   update(state.values);
     // }
