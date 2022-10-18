@@ -5,7 +5,7 @@ import Banner from './components/Banner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useJsonQuery } from './utilities/fetch';
+import { useDbData } from "./utilities/firebase";
 import Modal from './components/Modal';
 import Cart from './components/Cart.jsx';
 import TermSelector from './components/TermSelector';
@@ -22,7 +22,7 @@ const terms = {
 };
 
 const Main = () => {
-  const [schedule, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
+  const [data, error] = useDbData('/');
   const [open, setOpen] = useState(false);
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
@@ -37,17 +37,17 @@ const Main = () => {
     )
   setUnavailable(
     selected.includes(item)
-    ? unavailable.filter((unavailable) => !conflict_courses(schedule.courses[item], schedule.courses).includes(unavailable))
-    : unavailable => unavailable.concat(conflict_courses(schedule.courses[item], schedule.courses)))
+    ? unavailable.filter((unavailable) => !conflict_courses(data.courses[item], data.courses).includes(unavailable))
+    : unavailable => unavailable.concat(conflict_courses(data.courses[item], data.courses)))
     
 };
-  if (error) return <h1>Error loading user data: {`${error}`}</h1>;
-  if (isLoading) return <h1>Loading user data...</h1>;
-  if (!schedule) return <h1>No user data found</h1>;
+  if (error) return <h1>Error loading data: {`${error}`}</h1>;
+  if (data === undefined) return <h1>Loading data...</h1>;
+  if (!data) return <h1>No data found</h1>;
 
   return (
     <div>
-      <Banner title={schedule.title} />
+      <Banner title={data.title} />
       <div>
           <div className="d-flex p-2">
           <TermSelector 
@@ -56,9 +56,9 @@ const Main = () => {
           <button className="ms-auto btn btn-outline-dark" onClick={openModal}><i className="bi bi-calendar"></i></button>
           </div>
           <Modal open={open} close={closeModal}>
-              <Cart courses={schedule.courses} selected={selected} />    
+              <Cart courses={data.courses} selected={selected} />    
           </Modal>
-         <CourseList courses={schedule.courses} selection={selection} selected={selected} unavailable={unavailable} toggleSelected={toggleSelected}/>
+         <CourseList courses={data.courses} selection={selection} selected={selected} unavailable={unavailable} toggleSelected={toggleSelected}/>
          </div>
          </div>
   );

@@ -1,23 +1,19 @@
-import { useEffect, useState } from 'react';
-import { getDatabase, onValue, ref, update} from 'firebase/database';
-const database = getDatabase(firebase);
-
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref, update } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCqy8l97tEWjvW3V1B0f9bMsMLFk9D4sWk",
-  authDomain: "maxtactoe.firebaseapp.com",
-  databaseURL: "https://maxtactoe.firebaseio.com",
-  projectId: "maxtactoe",
-  storageBucket: "maxtactoe.appspot.com",
-  messagingSenderId: "672040841619",
-  appId: "1:672040841619:web:e488e188d5b93db7753866"
+  apiKey: "AIzaSyBuyjXv2X8Ba6MavVn-VqLM6yjFV1SKxLo",
+  authDomain: "react-app-c6dbc.firebaseapp.com",
+  databaseURL: "https://react-app-c6dbc-default-rtdb.firebaseio.com",
+  projectId: "react-app-c6dbc",
+  storageBucket: "react-app-c6dbc.appspot.com",
+  messagingSenderId: "421235700304",
+  appId: "1:421235700304:web:e6724da347046af4865755"
 };
 
-// Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
+const database = getDatabase(firebase);
 
 export const useDbData = (path) => {
   const [data, setData] = useState();
