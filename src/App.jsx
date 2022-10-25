@@ -13,6 +13,7 @@ import CourseList from './components/CourseList';
 import { conflict_courses } from './utilities/checks.js';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CourseForm from './components/CourseForm';
+import { useProfile } from './utilities/profile';
 
 const terms = {
   Fall: 'Fall', 
@@ -29,6 +30,8 @@ const Main = () => {
   const [selected, setSelected] = useState([]);
   const [unavailable, setUnavailable] = useState([]);
   const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+  const [profile, profileLoading, profileError] = useProfile();
+
 
   const toggleSelected = (item) => { setSelected(
     selected.includes(item)
@@ -44,6 +47,10 @@ const Main = () => {
   if (error) return <h1>Error loading data: {`${error}`}</h1>;
   if (data === undefined) return <h1>Loading data...</h1>;
   if (!data) return <h1>No data found</h1>;
+  if (profileError) return <h1>Error loading profile: {`${profileError}`}</h1>;
+  if (profileLoading) return <h1>Loading user profile</h1>;
+  if (!profile) return <h1>No profile data</h1>;
+  
 
   return (
     <div>
@@ -58,7 +65,7 @@ const Main = () => {
           <Modal open={open} close={closeModal}>
               <Cart courses={data.courses} selected={selected} />    
           </Modal>
-         <CourseList courses={data.courses} selection={selection} selected={selected} unavailable={unavailable} toggleSelected={toggleSelected}/>
+         <CourseList courses={data.courses} selection={selection} selected={selected} unavailable={unavailable} toggleSelected={toggleSelected} profile={profile}/>
          </div>
          </div>
   );
@@ -66,18 +73,26 @@ const Main = () => {
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  const [profile, profileLoading, profileError] = useProfile();
+  
+
+  if (profileError) return <h1>Error loading profile: {`${profileError}`}</h1>;
+  if (profileLoading) return <h1>Loading user profile</h1>;
+  if (!profile) return <h1>No profile data</h1>;
+
+  return (
   <QueryClientProvider client={queryClient}>
     <div className="container">
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main/>} />
-        <Route path="/CourseForm/:id" element={<CourseForm />} />
+        <Route path="/CourseForm/:id" element={<CourseForm />} profile={profile}/>
       </Routes>
     </BrowserRouter>
     </div>
-  </QueryClientProvider>
-);
+  </QueryClientProvider>)
+};
 
 
 export default App;
