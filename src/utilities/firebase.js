@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, update } from 'firebase/database';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, signInWithCredential } from 'firebase/auth';
+import { getDatabase, connectDatabaseEmulator, onValue, ref, update } from 'firebase/database';
+import { connectAuthEmulator, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, signInWithCredential } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBuyjXv2X8Ba6MavVn-VqLM6yjFV1SKxLo",
@@ -16,8 +16,9 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const auth = getAuth(firebase);
 const database = getDatabase(firebase);
+const NODE_ENV = process.env.NODE_ENV;
 
-if (process.env.REACT_APP_EMULATE) {
+if (NODE_ENV.REACT_APP_EMULATE) {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
   connectDatabaseEmulator(db, "127.0.0.1", 9000);
 
