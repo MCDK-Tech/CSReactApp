@@ -15,7 +15,7 @@ const MenuButton = ({term, selection, setSelection}) => (
         checked={term === selection} 
         autoComplete="off"
         onChange={() => setSelection(term)} />
-      <label className="btn btn-success mb-1 p-2" htmlFor={term}>
+      <label className="btn btn-success mb-1 p-2" htmlFor={term} data-cy={term}>
       { term }
       </label>
     </div>
